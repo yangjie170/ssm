@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xmlns:import="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+    <!--    开启注解扫描，除了@Controller之外的注解标识的类-->
+    <context:component-scan base-package="com.emmm">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--整合mybatis-->
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--配置sqlsession工厂-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+        <!--<property name="typeAliasesPackage" value="com.example.mapper"/>-->
+        <!--<property name="configLocation" value="classpath:springmvc.xml"/>-->
+    </bean>
+    <!--配置接口所在包-->
+    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.emmm.mapper"/>
+        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+    </bean>
+    <!-- 配置映射文件的位置，如果配置文件与mapper接口在同一个位置，可以不写 -->
+
+
+    <!-- 扫描所有的mapper接口的实现，让这些mapper能够自动注入；
+base-package：指定mapper接口的包名
+ -->
+    <!--<mybatis-spring:scan base-package="com.atguigu.mybatis.dao"/>-->
+
+    <!-- spring事务管理 -->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--
+    &lt;!&ndash;5 声明式事务管理 &ndash;&gt;
+    &lt;!&ndash;定义事物管理器，由spring管理事务 &ndash;&gt;
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    &lt;!&ndash;支持注解驱动的事务管理，指定事务管理器 &ndash;&gt;
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    &lt;!&ndash;6 容器自动扫描IOC组件  &ndash;&gt;
+    <context:component-scan base-package="com.example"/>
+
+    &lt;!&ndash;7 aspectj支持自动代理实现AOP功能 &ndash;&gt;
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    &lt;!&ndash; 配置 Spring 的 org.springframework.jdbc.core.JdbcTemplate &ndash;&gt;
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <context:component-scan base-package="com.example"/>
+-->
+</beans>

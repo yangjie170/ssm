@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.emmm.mapper.UserMapper">
+    <!-- parameterType:参数类型,填写实体类的完整名字 -->
+    <insert id="save" parameterType="com.emmm.entity.User">
+        insert into user values (#{name},#{age},#{id})
+    </insert>
+    <select id="queryAllUser" resultType="com.emmm.entity.User">
+        select * from user
+    </select>
+
+</mapper>
