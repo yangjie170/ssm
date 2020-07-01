@@ -14,13 +14,13 @@
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-<!--开启注解扫描，只扫描@Controller标注的类-->
+<!--开启注解扫描，只扫描@Controller标注的类，include包含，exclude不包含-->
     <context:component-scan base-package="com.emmm">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     
     <!--配置视图解析器-->
-
+    <!--前缀后缀-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/page/"/>
         <property name="suffix" value=".jsp"/>
